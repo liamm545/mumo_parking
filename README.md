@@ -2,9 +2,9 @@
 
 ## 해야할 것
 
-##### 1. 장애물 충돌 관련 처리
+~~##### 1. 장애물 충돌 관련 처리
 장애물을 만들 순 있는데, 지금 충돌이 안되어서 관련 처리를 진행하고 있습니다.
-관련 패키지 -> se2_grid_map_generator, se2_planning (특히 GridMapStateValidator.cpp 파일)
+관련 패키지 -> se2_grid_map_generator, se2_planning (특히 GridMapStateValidator.cpp 파일)~~
 
 ##### 2. 실차 적용 관련
 10.9일에 실차에서 테스트해 본 결과, 조향은 잘 들어가는데 속도가 좀 문제가 있습니다.
