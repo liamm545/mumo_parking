@@ -3,7 +3,7 @@
 <launch>
 
 	<!-- Parameters -->
-	<arg name="launch_rviz" default="true" />
+	<arg name="launch_rviz" default="false" />
 	<arg name="rviz_config_file"
 		 default="$(find se2_grid_map_generator)/config/rviz/default.rviz" />
 	<arg name="config_filename" default="$(find se2_grid_map_generator)/config/default.yaml"/>

@@ -17,6 +17,8 @@
 grid_map::GridMap gridMap;
 bool isMapReceived = false;
 
+std::shared_ptr<se2_planning::OmplReedsSheppPlanner> planner;
+
 void gridMapCallback(const grid_map_msgs::GridMap& msg) {
   grid_map::GridMapRosConverter::fromMessage(msg, gridMap);
   isMapReceived = true;
@@ -29,7 +31,8 @@ void gridMapCallback(const grid_map_msgs::GridMap& msg) {
 
   const auto& obstacleLayer = gridMap["obstacle"];
   std::vector<grid_map::Position> obstaclePositions;
-
+  // const auto& data = gridMap.get("obstacle");
+  // std::cout << data << std::endl;
   for (grid_map::GridMapIterator it(gridMap); !it.isPastEnd(); ++it) {
     const grid_map::Index index(*it);
     const double value = obstacleLayer(index(0), index(1));
@@ -44,6 +47,16 @@ void gridMapCallback(const grid_map_msgs::GridMap& msg) {
   for (const auto& pos : obstaclePositions) {
     ROS_INFO_STREAM("Obstacle at: (" << pos.x() << ", " << pos.y() << ")");
   }
+
+  se2_planning::RobotFootprint footprint = se2_planning::computeFootprint(2.0, 2.0, 1.5, 1.5);
+
+  std::string obstacleLayerStr = "obstacle";
+
+  const auto& data = gridMap.get("obstacle");
+  std::cout << data << std::endl;
+
+  auto stateValidator = se2_planning::createGridMapStateValidator(gridMap, footprint, obstacleLayerStr);
+  planner->setStateValidator(std::move(stateValidator));
 }
 
 int main(int argc, char** argv) {
@@ -58,20 +71,8 @@ int main(int argc, char** argv) {
 
   ros::Subscriber gridMapSub = nh->subscribe("/se2_grid_map_generator_node/grid_map", 1, gridMapCallback);
 
-  auto planner = std::make_shared<OmplReedsSheppPlanner>();
+  planner = std::make_shared<OmplReedsSheppPlanner>();
   planner->setParameters(plannerParameters);
-
-  while (!isMapReceived && ros::ok()) {
-    ros::spinOnce();
-  }
-
-  RobotFootprint footprint = computeFootprint(2.0, 2.0, 1.5, 1.5);  // param 확인 필요
-  // for (const auto& layer : gridMap.getLayers()) {
-  //   ROS_INFO_STREAM(" - " << layer);
-  // }
-  std::string obstacleLayer = "obstacle";
-  auto stateValidator = createGridMapStateValidator(gridMap, footprint, obstacleLayer);
-  planner->setStateValidator(std::move(stateValidator));
 
   // ros 연동 부분
   se2_planning::OmplReedsSheppPlannerRos plannerRos(nh);

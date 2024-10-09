@@ -25,7 +25,9 @@ bool GridMapStateValidator::isStateValid(const State& state) const {
   footprintAtPose(nominalFootprint_, *(state.as<SE2state>()), &currentFootprint_);
 
   auto polygon = toPolygon(currentFootprint_);
-  polygon.setFrameId(gridMap_.getFrameId());
+  // polygon.setFrameId(gridMap_.getFrameId());
+  // const auto& data = gridMap_.get("obstacle");
+  // std::cout << data << std::endl;
   return !isInCollision(polygon, gridMap_, obstacleLayerName_);
 }
 
@@ -66,18 +68,20 @@ bool isInCollision(const grid_map::Polygon& polygon, const grid_map::GridMap& gr
    * anything different thatn 0.0 means that
    * the space is not free, this is just so that numerics are a bit better
    */
+  // std::cout << "what???" << obstacleLayer << std::endl;
   const double collisionThreshold = 0.1;
   const auto& data = gridMap.get(obstacleLayer);
-
+  // std::cout << data << std::endl;
   for (grid_map::PolygonIterator iterator(gridMap, polygon); !iterator.isPastEnd(); ++iterator) {
     const grid_map::Index index(*iterator);
+    // std::cout << "Index: (" << (*iterator)(0) << ", " << (*iterator)(1) << ") " << std::endl;
+
     double occupancy = 0.0;
-    // std::cout << "Checking collision at index: (" << index(0) << ", " << index(1) << ")";
     try {
       occupancy = data(index(0), index(1));
-      // if (occupancy > 0) {
-      //   std::cout << "occupnacy: " << occupancy << std::endl;
-      // }
+      if (occupancy > 0) {
+        std::cout << "occupnacy: " << occupancy << std::endl;
+      }
       // std::cout << "occupnacy: " << occupancy << std::endl;
     } catch (const std::out_of_range& e) {
       std::cout << "Index out of range: collision assumed." << std::endl;
@@ -88,6 +92,10 @@ bool isInCollision(const grid_map::Polygon& polygon, const grid_map::GridMap& gr
     // perception pipeline
     if (std::isnan(occupancy)) {
       continue;
+    }
+
+    if (occupancy == 1.0) {
+        std::cout << "Occupancy is 1 at index: (" << index(0) << ", " << index(1) << ")" << std::endl;
     }
 
     if (occupancy > collisionThreshold) {

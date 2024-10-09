@@ -71,6 +71,7 @@ void GridMapGenerator::publishMap() {
 void GridMapGenerator::setPolygonInMap(const std::string layerName, const grid_map::Polygon polygon, const double value) {
   for (grid_map::PolygonIterator iterator(map_, polygon); !iterator.isPastEnd(); ++iterator) {
     map_.at(layerName, *iterator) = value;
+    std::cout << "Index: (" << (*iterator)(0) << ", " << (*iterator)(1) << "), Value: " << value << std::endl;
   }
 }
 
@@ -132,6 +133,7 @@ bool GridMapGenerator::addPolygonObstacleService(se2_grid_map_generator_msgs::Ad
   // Set each given layer
   for (size_t idx = 0; idx < req.obstacle.layers.size(); ++idx) {
     setPolygonInMap(req.obstacle.layers[idx].data, polygon, req.obstacle.values[idx].data);
+    // std::cout << "damn: " << req.obstacle.layers[idx].data << ", " << req.obstacle.values[idx].data << std::endl;
   }
 
   publishMap();
