@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
   ros::init(argc, argv, "prius_controller_node");
   ros::NodeHandlePtr nh(new ros::NodeHandle("~"));
   PriusControllerRos controller(nh);
-  const double frequency = 50.0;
+  const double frequency = 10.0;
   controller.initialize(1 / frequency);
 
   sleep(2.0);
