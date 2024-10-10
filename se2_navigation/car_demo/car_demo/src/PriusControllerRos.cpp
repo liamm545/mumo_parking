@@ -131,8 +131,8 @@ void PriusControllerRos::translateCommands(double longitudinalSpeed, double stee
     const double maxSteeringAnglePrius = 0.7;
     ctrl->steer_ = steeringAngle / maxSteeringAnglePrius;
     translateVelocity(std::fabs(longitudinalSpeed), ctrl);
-
-    drive_cmd_.KPH = std::abs(longitudinalSpeed);
+    std::cout << longitudinalSpeed << std::endl;
+    drive_cmd_.KPH = std::abs(longitudinalSpeed)*10;
     drive_cmd_.Deg = static_cast<int>(steeringAngle * 180.0 / M_PI);
 
     drive_cmd_.brake = (longitudinalSpeed <= 0.0) ? 1 : 0;
