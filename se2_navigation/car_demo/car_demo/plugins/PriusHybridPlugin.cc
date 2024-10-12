@@ -450,7 +450,7 @@ void PriusHybridPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
   this->dataPtr->posePub = this->dataPtr->node.Advertise<ignition::msgs::Pose>("/prius/pose");
   this->dataPtr->consolePub = this->dataPtr->node.Advertise<ignition::msgs::Double_V>("/prius/console");
 
-  std::string chassisLinkName = dPtr->model->GetName() + "::" + _sdf->Get<std::string>("base_link");
+  std::string chassisLinkName = dPtr->model->GetName() + "::" + _sdf->Get<std::string>("chassis");
   dPtr->chassisLink = dPtr->model->GetLink(chassisLinkName);
   if (!dPtr->chassisLink) {
     std::cerr << "could not find chassis link" << std::endl;
