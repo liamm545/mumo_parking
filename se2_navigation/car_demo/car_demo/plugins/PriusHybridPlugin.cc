@@ -438,7 +438,7 @@ void PriusHybridPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
 
   if (_sdf->HasElement("robotNamespace")) this->robot_namespace_ = _sdf->GetElement("robotNamespace")->Get<std::string>() + "/";
   ros::NodeHandle nh(this->robot_namespace_);
-  this->dataPtr->controlSub = nh.subscribe("prius_controls", 10, &PriusHybridPlugin::OnPriusCommand, this);
+  this->dataPtr->controlSub = nh.subscribe("erp_controls", 10, &PriusHybridPlugin::OnPriusCommand, this);
 
   this->dataPtr->node.Subscribe("/prius/reset", &PriusHybridPlugin::OnReset, this);
   this->dataPtr->node.Subscribe("/prius/stop", &PriusHybridPlugin::OnStop, this);
@@ -450,7 +450,7 @@ void PriusHybridPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
   this->dataPtr->posePub = this->dataPtr->node.Advertise<ignition::msgs::Pose>("/prius/pose");
   this->dataPtr->consolePub = this->dataPtr->node.Advertise<ignition::msgs::Double_V>("/prius/console");
 
-  std::string chassisLinkName = dPtr->model->GetName() + "::" + _sdf->Get<std::string>("chassis");
+  std::string chassisLinkName = dPtr->model->GetName() + "::" + _sdf->Get<std::string>("base_link");
   dPtr->chassisLink = dPtr->model->GetLink(chassisLinkName);
   if (!dPtr->chassisLink) {
     std::cerr << "could not find chassis link" << std::endl;

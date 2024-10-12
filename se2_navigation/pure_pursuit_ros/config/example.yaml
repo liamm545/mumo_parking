@@ -1,16 +1,16 @@
 velocity_control:
   constant_velocity_control:
-    desired_velocity: 1.0
+    desired_velocity: 5.0
     max_rate_of_change: 0.3
   adaptive_velocity_control:
-    nominal_velocity: 1.0
-    max_rate_of_change: 0.3
+    nominal_velocity: 5.0
+    max_rate_of_change: 0.5
     distance_when_braking_starts: 5.0
 
 heading_control:
-  lookahead_fwd: 4.5
+  lookahead_fwd: 4.0
   lookahead_bck: 4.0
-  anchor_dist_fwd: 1.0
+  anchor_dist_fwd: 0.5
   anchor_dist_bck: 0.5
   dead_zone_width: 0.0
   avg_filter_current_sample_weight: 0.1

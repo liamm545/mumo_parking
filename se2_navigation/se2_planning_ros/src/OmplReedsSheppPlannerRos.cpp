@@ -20,6 +20,7 @@ OmplReedsSheppPlannerRos::OmplReedsSheppPlannerRos(ros::NodeHandlePtr nh) : BASE
 
 void OmplReedsSheppPlannerRos::setParameters(const OmplReedsSheppPlannerRosParameters& parameters) {
   parameters_ = parameters;
+  // std::cout<<"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" << std::endl;
 }
 
 bool OmplReedsSheppPlannerRos::initialize() {

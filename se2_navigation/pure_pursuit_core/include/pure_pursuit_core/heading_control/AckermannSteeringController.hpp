@@ -15,8 +15,8 @@
 namespace pure_pursuit {
 
 struct AckermannSteeringCtrlParameters : public HeadingControllerParameters {
-  double wheelBase_ = 4.0;
-  double maxSteeringAngleMagnitude_ = 0.5;  // rad
+  double wheelBase_ = 1.04;
+  double maxSteeringAngleMagnitude_ = 0.488692;  // rad
   double maxSteeringRateOfChange_ = 0.2;    // rad/s
   double dt_ = 0.01;                        // seconds
   std::string asString() const override;

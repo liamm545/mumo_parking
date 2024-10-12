@@ -12,6 +12,7 @@
     <depend>prius_msgs</depend>
     <depend>roscpp</depend>
     <depend>nav_msgs</depend>
+    <depend>erp42_msgs</depend>
     <depend>se2_navigation_msgs</depend>
     <depend>pure_pursuit_ros</depend>
     <depend>tf</depend>

@@ -10,6 +10,7 @@ set(CATKIN_PACKAGE_DEPENDENCIES
         gazebo_ros
         prius_msgs
         nav_msgs
+        erp42_msgs
         se2_navigation_msgs
         pure_pursuit_ros
         tf
@@ -51,7 +52,7 @@ add_dependencies(PriusHybridPlugin ${catkin_EXPORTED_TARGETS})
 
 
 add_library(${PROJECT_NAME}
-        src/PriusControllerRos.cpp
+        src/Erp42ControllerRos.cpp
         src/PIDController.cpp
         )
 target_link_libraries(${PROJECT_NAME}
@@ -59,10 +60,10 @@ target_link_libraries(${PROJECT_NAME}
         yaml-cpp
         )
 
-add_executable(prius_controller_node
-        src/prius_controller_node.cpp)
+add_executable(erp42_controller_node
+        src/erp42_controller_node.cpp)
 
-target_link_libraries(prius_controller_node
+target_link_libraries(erp42_controller_node
         ${PROJECT_NAME}
         ${catkin_LIBRARIES}
         )
@@ -71,7 +72,7 @@ target_link_libraries(prius_controller_node
 catkin_install_python(PROGRAMS nodes/joystick_translator
         DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
-install(TARGETS PriusHybridPlugin ${PROJECT_NAME} prius_controller_node
+install(TARGETS PriusHybridPlugin ${PROJECT_NAME} erp42_controller_node
         ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

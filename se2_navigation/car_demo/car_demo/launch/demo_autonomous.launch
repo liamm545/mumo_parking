@@ -1,23 +1,23 @@
 <?xml version="1.0"?>
 <launch>
 	<arg name="model"
-		default="$(find prius_description)/urdf/prius.urdf" />
+		default="$(find erp42_description)/urdf/erp42.urdf" />
 	<arg name="rvizconfig"
 		default="$(find car_demo)/rviz/demo_autonomous.rviz" />
 	<arg name="launch_rviz" default="true" />
 
 	<arg name="ompl_planner_ros_parameter_path"
 		default="$(find car_demo)/config/reeds_shepp_planner_ros.yaml" />
-	<arg name="prius_path_tracker_ros_parameters_filename"
-		default="$(find car_demo)/config/prius_path_tracker_ros_parameters.yaml" />
-	<arg name="prius_pid_parameters_filename"
-		default="$(find car_demo)/config/prius_pid_parameters.yaml" />
+	<arg name="erp_path_tracker_ros_parameters_filename"
+		default="$(find car_demo)/config/erp_path_tracker_ros_parameters.yaml" />
+	<arg name="erp_pid_parameters_filename"
+		default="$(find car_demo)/config/erp_pid_parameters.yaml" />
 
-	<param name="/prius_path_tracker_ros_parameters_filename"
+	<param name="/erp_path_tracker_ros_parameters_filename"
 		type="string"
-		value="$(arg prius_path_tracker_ros_parameters_filename)" />
-	<param name="/prius_pid_parameters_filename" type="string"
-		value="$(arg prius_pid_parameters_filename)" />
+		value="$(arg erp_path_tracker_ros_parameters_filename)" />
+	<param name="/erp_pid_parameters_filename" type="string"
+		value="$(arg erp_pid_parameters_filename)" />
 	<param name="robot_description" textfile="$(arg model)" />
 
 	<include
@@ -35,20 +35,48 @@
 	<node pkg="robot_state_publisher" type="robot_state_publisher"
 		name="robot_state_publisher">
 		<!-- <remap from="robot_description" to="different_robot_description" /> -->
-		<!-- <remap from="joint_states" to="/prius/joint_states" /> -->
+		<!-- <remap from="joint_states" to="/erp42/joint_states" /> -->
 	</node>
 	<node pkg="fake_localization" type="fake_localization"
 		name="fake_localization">
 		<remap from="base_pose_ground_truth"
-			to="/prius/base_pose_ground_truth" />
+			to="/erp42/base_pose_ground_truth" />
 	</node>
+
 	<node pkg="tf2_ros" type="static_transform_publisher"
 		name="very_inaccurate_odom" args="0 0 0 0 0 0 odom base_link" />
-	<node pkg="car_demo" type="prius_controller_node"
-		name="prius_controller_node" output="screen" launch-prefix="" />
+
+	<node pkg="car_demo" type="erp42_controller_node"
+		name="erp42_controller_node" output="screen" launch-prefix="" />
 
 	<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
-		args="-param robot_description -urdf -x 0 -y 4 -z 0 -model prius" />
+		args="-param robot_description -urdf -x 0.0 -y 4.0 -z 0.0 -model erp42" />
+
+	<!-- <param name="robot_description" command="$(find xacro)/xacro $(arg model)" /> -->
+	
+	<!-- <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_odom" args="0 4.0 0 0 0 0 map odom" /> -->
+
+	<!-- <rosparam file="$(find erp42_description)/config/controllers.yaml" command="load" /> -->
+
+	<!-- <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+	output="screen" ns="/erp42" 
+					args="joint_state_controller 
+						left_front_wheel_controller
+						left_back_wheel_controller
+						right_front_wheel_controller
+						right_back_wheel_controller
+						right_steer_wheel_controller
+						left_steer_wheel_controller"/>
+
+	<node pkg="joint_state_publisher" type="joint_state_publisher"  name="joint_state_publisher">
+    	<param name="use_gui" value="False"/>
+  	</node>
+ -->
+
+
+	<!-- <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+		args="-x 0.0 -y 4.0 -z 0.0 -unpause -urdf -model erp42 -param robot_description" output="screen" /> -->
+
 
 	<node name="rviz_car_demo" pkg="rviz" type="rviz"
 		args="-d $(arg rvizconfig)" required="true" />

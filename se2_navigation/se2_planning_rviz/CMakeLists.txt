@@ -81,6 +81,7 @@ include_directories(
         include
         ${catkin_INCLUDE_DIRS}
         ${qt_include_dirs}
+        ${PROJECT_SOURCE_DIR}/devel/include
 )
 
 
