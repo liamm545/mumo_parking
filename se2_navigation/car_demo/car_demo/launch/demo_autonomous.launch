@@ -50,7 +50,7 @@
 		name="erp42_controller_node" output="screen" launch-prefix="" />
 
 	<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
-		args="-param robot_description -urdf -x 0.0 -y 4.0 -z 0.0 -model erp42" />
+		args="-param robot_description -urdf -x 0.0 -y 4.0 -z 1.0 -model erp42" />
 
 	<!-- <param name="robot_description" command="$(find xacro)/xacro $(arg model)" /> -->
 	

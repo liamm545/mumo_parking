@@ -3,6 +3,31 @@
 
   <!-- <xacro:include filename="$(find erp42_description)/urdf/macros_erp42.xacro"/> -->
 
+  <!-- <gazebo reference="front_left_wheel">
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
+    <minDepth>0.005</minDepth>
+    <kp>1e8</kp>
+  </gazebo>
+  <gazebo reference="front_right_wheel">
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
+    <minDepth>0.005</minDepth>
+    <kp>1e8</kp>
+  </gazebo>
+  <gazebo reference="rear_left_wheel">
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
+    <minDepth>0.005</minDepth>
+    <kp>1e8</kp>
+  </gazebo>
+  <gazebo reference="rear_right_wheel">
+    <mu1>0.9</mu1>
+    <mu2>0.9</mu2>
+    <minDepth>0.005</minDepth>
+    <kp>1e8</kp>
+  </gazebo> -->
+
   <!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-OK-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
   <link name="base_link">
     <inertial>
@@ -10,6 +35,7 @@
       <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
     </inertial>
   </link>
+
   <joint name="base_link_connection" type="fixed">
     <parent link="base_link"/>
     <child link="chassis"/>
@@ -20,6 +46,7 @@
   <link name="chassis">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
+      <!-- <origin xyz="0 0 -0.03" rpy="0 0 0" /> -->
       <geometry>
         <mesh filename="package://erp42_description/meshes/erp42_structure.dae" scale="1 1 1"/>
       </geometry>
@@ -27,13 +54,14 @@
 
     <collision name="chassis">
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+      <!-- <origin xyz="0 0.05 0.625" rpy="0 0 0" /> -->
       <geometry>
-        <box size="2.02 1.3 1.5"/>
+        <box size="1.0 1.0 0.2"/>
       </geometry>
     </collision>
 
     <inertial>
-      <mass value="160"/>
+      <mass value="25"/>
       <origin xyz="0 0 0" />
       <inertia ixx="20.43" ixy="0.584" ixz="-0.191" iyy="54.197" iyz="-0.2449" izz="72.2588"/>
     </inertial>
@@ -76,7 +104,7 @@
     <gazebo>
       <mu1 value="0.72"/> 
       <mu2 value="0.72"/>
-      <kp value="10000000.0" /> 
+      <kp value="10.0" /> 
       <kd value="1.0" />
       <material>Gazebo/Grey</material> 
     </gazebo>
@@ -103,7 +131,7 @@
     <gazebo>
       <mu1 value="0.72"/>
       <mu2 value="0.72"/>
-      <kp value="10000000.0" />
+      <kp value="10.0" />
       <kd value="1.0" />
       <material>Gazebo/Grey</material>
     </gazebo>
@@ -130,7 +158,7 @@
     <gazebo>
       <mu1 value="0.72"/>
       <mu2 value="0.72"/>
-      <kp value="10000000.0" />
+      <kp value="10.0" />
       <kd value="1.0" />
       <material>Gazebo/Grey</material>
     </gazebo>
@@ -157,7 +185,7 @@
     <gazebo>
       <mu1 value="0.72"/>
       <mu2 value="0.72"/>
-      <kp value="10000000.0" />
+      <kp value="10.0" />
       <kd value="1.0" />
       <material>Gazebo/Grey</material>
     </gazebo>
@@ -252,10 +280,10 @@
       <back_right_wheel>rear_right_wheel_joint</back_right_wheel>
       <steering_wheel>steering_joint</steering_wheel>
       <!-- <chassis_aero_force_gain>0.63045</chassis_aero_force_gain> -->
-      <front_torque>500.4004393000001</front_torque>
+      <front_torque>40.4004393000001</front_torque>
       <back_torque>0</back_torque>
-      <front_brake_torque>1031.28052716</front_brake_torque>
-      <back_brake_torque>687.5203514400001</back_brake_torque>
+      <front_brake_torque>40.28052716</front_brake_torque>
+      <back_brake_torque>40.5203514400001</back_brake_torque>
       <max_speed>25</max_speed>
       <!-- <min_gas_flow>8.981854013171626e-05</min_gas_flow> -->
       <!-- <gas_efficiency>0.371</gas_efficiency> -->
