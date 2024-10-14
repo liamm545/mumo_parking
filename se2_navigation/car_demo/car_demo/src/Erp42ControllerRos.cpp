@@ -6,7 +6,7 @@
  */
 
 #include "car_demo/Erp42ControllerRos.hpp"
-
+#include <fstream> 
 #include <tf/transform_datatypes.h>
 #include <std_msgs/Float64.h>
 #include "prius_msgs/Control.h"
@@ -36,11 +36,11 @@ void Erp42ControllerRos::initialize(double dt) {
 }
 
 void Erp42ControllerRos::loadPIDParameters() {
-  std::cout << "ffffffffffffffffffffffffffffffffffffffffffffffffffff" << std::endl;
+  // std::cout << "ffffffffffffffffffffffffffffffffffffffffffffffffffff" << std::endl;
   const std::string controllerParametersFilename = nh_->param<std::string>("/erp_pid_parameters_filename", "");
   const auto params = loadParameters(controllerParametersFilename);
 
-  std::cout << "yoyoyoyoyoyoyoyoyo" << std::endl;
+  // std::cout << "yoyoyoyoyoyoyoyoyo" << std::endl;
 
   pidController_.setGains(params.kp_, params.ki_, params.kd_);
 
@@ -291,6 +291,7 @@ void convert(se2_navigation_msgs::Path& path, pure_pursuit::Path* out) {
   out->segment_.reserve(path.segment_.size());
   for (const auto& segment : path.segment_) {
     pure_pursuit::PathSegment s;
+    // std::cout << segment << std::endl;
     s.point_.reserve(segment.points_.size());
     switch (segment.direction_) {
       case se2_navigation_msgs::PathSegment::DrivingDirection::Forward: {
@@ -313,6 +314,7 @@ void convert(se2_navigation_msgs::Path& path, pure_pursuit::Path* out) {
 }
 
 void Erp42ControllerRos::pathCallback(const se2_navigation_msgs::PathMsg& pathMsg) {
+
   currentPath_ = se2_navigation_msgs::convert(pathMsg);
 
   if (currentPath_.segment_.empty()) {
@@ -322,6 +324,24 @@ void Erp42ControllerRos::pathCallback(const se2_navigation_msgs::PathMsg& pathMs
 
   pure_pursuit::Path path;
   convert(currentPath_, &path);
+
+  std::ofstream csvFile("/home/yeong/my_ws/catkin_ws/path_data.csv");
+
+  csvFile << "Segment,Direction,X,Y,Z\n";
+
+  for (size_t i = 0; i < currentPath_.segment_.size(); ++i) {
+      const auto& segment = currentPath_.segment_[i];
+      std::string direction = (segment.direction_ == se2_navigation_msgs::PathSegment::DrivingDirection::Forward) ? "FORWARD" :
+                              (segment.direction_ == se2_navigation_msgs::PathSegment::DrivingDirection::Backwards) ? "BACKWARDS" : "UNKNOWN";
+      
+      for (const auto& point : segment.points_) {
+          csvFile << i << "," << direction << "," << point.position.x << "," << point.position.y << "," << point.position.z << "\n";
+      }
+  }
+
+  csvFile.close();
+  std::cout << "Saved!!!!!!!!!!!!!!!!!!!!!!1" << std::endl;
+
 
   if (currentlyExecutingPlan_) {
     ROS_WARN_STREAM("PathFollowerRos: Robot is already tracking a plan. Updating the plan.");

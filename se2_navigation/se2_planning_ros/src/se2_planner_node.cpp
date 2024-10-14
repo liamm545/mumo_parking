@@ -48,7 +48,7 @@ void gridMapCallback(const grid_map_msgs::GridMap& msg) {
     ROS_INFO_STREAM("Obstacle at: (" << pos.x() << ", " << pos.y() << ")");
   }
 
-  se2_planning::RobotFootprint footprint = se2_planning::computeFootprint(2.0, 2.0, 1.5, 1.5);
+  se2_planning::RobotFootprint footprint = se2_planning::computeFootprint(1.0, 1.0, 0.5, 0.5);
 
   std::string obstacleLayerStr = "obstacle";
 

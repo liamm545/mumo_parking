@@ -194,6 +194,27 @@ Visualization Manager:
       Topic: /se2_planner_node/ompl_rs_planner_ros/nav_msgs_path
       Unreliable: false
       Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: false
+      Class: grid_map_rviz_plugin/GridMap
+      Color: 200; 200; 200
+      Color Layer: elevation
+      Color Transformer: GridMapLayer
+      Enabled: true
+      Height Layer: obstacle
+      Height Transformer: GridMapLayer
+      History Length: 1
+      Invert Rainbow: false
+      Max Color: 52; 101; 164
+      Max Intensity: 1
+      Min Color: 238; 238; 236
+      Min Intensity: 0
+      Name: GridMap
+      Show Grid Lines: true
+      Topic: /se2_grid_map_generator_node/grid_map
+      Unreliable: false
+      Use Rainbow: false
+      Value: true 
   Enabled: true
   Global Options:
     Background Color: 186; 189; 182
